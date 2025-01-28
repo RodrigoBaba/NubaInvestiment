@@ -11,12 +11,13 @@ menuToggle.addEventListener('click', () => {
 
 document.addEventListener('DOMContentLoaded', function() {
   // Lista de ações (ações que serão usadas no conteúdo)
-  let listShares = ['BBAS3', 'ITSA4', 'TAEE3/TAEE4', 'ISAE4', 'CPLE6', 'CPLE3', 'SAPR4', 'KLBN4'];
+  let listShares = ['BBAS3', 'ITSA4', 'CXSE3', 'TAEE3/TAEE4', 'ISAE4', 'CPLE6', 'CPLE3', 'SAPR4', 'KLBN4'];
 
   // Dados específicos de cada ação para o gráfico
   const shareData = {
     'BBAS3': [0.74, 1.13, 2.07, 2.27, 2.60],
     'ITSA4': [0.65, 0.39, 0.61, 0.58, 0.67],
+    'CXSE3': [0, 0.24, 0.65, 1, 1.06],
     'TAEE3/TAEE4': [1.07, 1.5, 1.62, 0.97, 1.18],
     'ISAE4': [1.74, 3.59, 1.06, 2.2, 0],
     'CPLE6': [0.31, 1.31, 0.89, 0.33, 0.42],
@@ -30,7 +31,21 @@ document.addEventListener('DOMContentLoaded', function() {
   // Criar os conteúdos com a lista de ações
   for (let i = 0; i < listShares.length; i++) {
     content.push('<div class="carousel-item-content" id="item-content-' + listShares[i].replace('/', '-') + '">' + 
-      '<h1 class="title-carousel">' + listShares[i] + '</h1>' +
+      '<div class="title-carousel">'+
+        '<h1 >' + listShares[i] + '</h1>' +
+        '<div class="number-shares">'+
+          '<div>' +
+            '<h4>R$100,00</h4>' +
+            '<p>Quantidade: </p>' +
+            '<p>' + Math.ceil(100/somarProventos(listShares[i])) + '</p>' +
+          '</div>' +
+          '<div>' +
+            '<h4>R$1000,00</h4>' +
+            '<p>Quantidade: </p>' +
+            '<p>' + Math.ceil(1000/somarProventos(listShares[i])) + '</p>' +
+          '</div>'+
+        '</div>'+
+      '</div>'+      
       '<div class="grid-container">' +
         '<div class="grid-item grid-graphic"><canvas></canvas></div>' +
         '<div class="grid-item grid-current-price">' +
@@ -156,79 +171,7 @@ document.addEventListener('DOMContentLoaded', function() {
   moveCarousel(0);
 });
 
-// function atualizarFace(inputElement) {
-//   inputElement.addEventListener("input", function() {
-//     // Expressão regular para permitir apenas números e vírgulas
-//     const regex = /^[0-9,]*$/;
-    
-//     // Se o valor no input não corresponder ao padrão, apague o valor
-//     if (!regex.test(inputElement.value)) {
-//         // Apaga o último caractere
-//         inputElement.value = inputElement.value.slice(0, -1); 
-//     }
-    
-//     // Pega o valor digitado no campo de input
-//     const valor = parseFloat(inputElement.value.replace(',', '.'));
-    
-//     // Obtém o nome da ação a partir do atributo data-share
-//     const share = inputElement.getAttribute('data-share');
-    
-//     const maximumPrice = parseFloat(document.getElementById('maximum-price-' + share).textContent.replace(',', '.'));
-    
-//     const faceLaugh = document.querySelector('#item-content-' + share + ' .fa-face-laugh-squint');
-//     const faceSad = document.querySelector('#item-content-' + share + ' .fa-face-sad-cry');
-//     const faceMeh = document.querySelector('#item-content-' + share + ' .fa-face-meh-blank');
-    
-//     // Esconde todos os ícones inicialmente
-//     faceLaugh.style.display = 'none';
-//     faceSad.style.display = 'none';
-//     faceMeh.style.display = 'none';
 
-//     // Calcula a lógica para mostrar o ícone correto com base no preço atual e a média de proventos
-//     if (valor < maximumPrice) {
-//         faceLaugh.style.display = 'inline-block'; // Mostra o ícone de felicidade
-//     } else if (valor > maximumPrice) {
-//         faceSad.style.display = 'inline-block'; // Mostra o ícone de tristeza
-//     } else {
-//         faceMeh.style.display = 'inline-block'; // Mostra o ícone neutro
-//     }
-    
-//     // Chama a função de atualização do preço máximo após alterar o valor
-//     updateMaximumPrice(inputElement);
-//   });
-// }
-
-// function updateMaximumPrice(inputElement) {
-//   inputElement.addEventListener("input", function() {
-//     // Expressão regular para permitir apenas números e vírgulas
-//     const regex = /^[0-9,]*$/;
-    
-//     // Se o valor no input não corresponder ao padrão, apague o valor
-//     if (!regex.test(inputElement.value)) {
-//         // Apaga o último caractere
-//         inputElement.value = inputElement.value.slice(0, -1); 
-//     }
-    
-//     // Pega o valor digitado no campo de input
-//     const valor = parseFloat(inputElement.value.replace(',', '.'));
-    
-//     // Obtém o nome da ação a partir do atributo data-share
-//     const share = inputElement.getAttribute('data-share');
-    
-//     // Pega o valor do span (média de proventos) da ação
-//     const mediaProventos = parseFloat(document.querySelector('#average-earnings-' + share).textContent.replace(',', '.'));
-    
-//     // Calcula o preço máximo
-//     let maximumPrice = mediaProventos / (valor / 100);
-
-//     // Atualiza o preço máximo na interface
-//     const idMaximumPrice = document.getElementById('maximum-price-' + share);
-//     idMaximumPrice.textContent = !isNaN(valor) && valor !== 0 ? maximumPrice.toFixed(2).replace('.', ',') : "Necessário Taxa de Juros";
-
-//     // Chama a função de atualização da face após alterar o preço máximo
-//     atualizarFace(inputElement);
-//   });
-// }
 
 
 function atualizarFace(inputElement) {
